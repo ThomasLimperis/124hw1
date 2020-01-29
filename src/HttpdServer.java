@@ -55,6 +55,14 @@ public class HttpdServer {
 		{
 		client = new Client(socket);
 		Thread thread = new Client(socket);
+		try
+		{
+		thread.sleep(5000);
+	  }catch(InterruptedException e)
+		{
+        e.printStackTrace();
+    }
+
 		thread.start();
 		LOGGER.log(Level.INFO, "Waiting response..");
 		socket = server.accept();
@@ -63,7 +71,7 @@ public class HttpdServer {
 	}
 	public String getMime(String fileName) throws IOException
 	{
-		File file = new File("../project-1-java-red/src/mime.types");
+		File file = new File(doc_root+"/src/mime.types");
 		String mime = "";
 
 		for (int i = fileName.length()-1; i >-1; i--)
@@ -116,7 +124,7 @@ public class Client extends Thread
 		boolean dir = false;
 		fileName = st.nextToken();
 
-		//"../project-1-java-red"
+		//doc_root ="../project-1-java-red";
 		File file = new File(doc_root + fileName);
 		if (file.isDirectory())
 		{
