@@ -70,7 +70,7 @@ public class HttpdServer {
 
 		//File file = new File(doc_root+"/src/mime.types");
 
-		File file = new File("./src/mime.types");
+		File file = new File(mime_types);
 		String mime = "";
 		for (int i = fileName.length()-1; i >-1; i--)
 		{
@@ -124,7 +124,6 @@ public class Client extends Thread
 		fileName = fileName;
 		if (fileName.charAt(fileName.length()-1)==('/'))
 			fileName  = fileName + "index.html";
-		//doc_root ="../project-1-java-red";
 		File file = new File("."+fileName);
 
 		if (file.isDirectory())
@@ -149,10 +148,10 @@ public class Client extends Thread
 
 		line ="HTTP/1.1 200 OK\r\n";
 		byte [] b = line.getBytes();
-	//	System.out.println("HTTP/1.1 200 OK");
+
 		this.output.writeBytes(line);
 		this.output.writeBytes("Server: Myserver 1.0\r\n");
-		//System.out.println("Server: Myserver 1.0");
+
 		this.output.writeBytes("Last-Modiied: ");
 
 
@@ -160,11 +159,8 @@ public class Client extends Thread
 
 		SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
 		String time = (format.format(file.lastModified())).toString();
-	//	System.out.println("Last-Modified: "+time);
-		this.output.writeBytes(time +"\r\n");
 
-		//System.out.println("Content-Length: " + file.length() +"\r\n");
-	//1	System.out.println("Content-type: " + mime);
+		this.output.writeBytes(time +"\r\n");
 
 
 		this.output.writeBytes("Content-Length: " + file.length() +"\r\n");
