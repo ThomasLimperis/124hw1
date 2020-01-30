@@ -38,7 +38,7 @@ public class HttpdServer {
 		}
 	}
 
-	public void launch() throws UnknownHostException, IOException
+	public void launch() throws UnknownHostException, IOException, SocketException
 	{
 		LOGGER.log(Level.INFO, "Launching Web Server");
 		LOGGER.log(Level.INFO, "Port: " + port);
@@ -59,7 +59,7 @@ public class HttpdServer {
 		try
 		{
 		thread.sleep(5);
-		//this.socket.setSoTimeout(5000);
+		socket.setSoTimeout(5000);
 	  }catch(InterruptedException e)
 		{
         e.printStackTrace();
