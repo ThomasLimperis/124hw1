@@ -57,7 +57,8 @@ public class HttpdServer {
 		Thread thread = new Client(socket);
 		try
 		{
-		thread.sleep(5000);
+		thread.sleep(5);
+		//this.socket.setSoTimeout(5000);
 	  }catch(InterruptedException e)
 		{
         e.printStackTrace();
@@ -71,9 +72,11 @@ public class HttpdServer {
 	}
 	public String getMime(String fileName) throws IOException
 	{
-		File file = new File(doc_root+"/src/mime.types");
-		String mime = "";
 
+		//File file = new File(doc_root+"/src/mime.types");
+
+		File file = new File("./src/mime.types");
+		String mime = "";
 		for (int i = fileName.length()-1; i >-1; i--)
 		{
 			if (fileName.charAt(i) =='.')
@@ -123,15 +126,22 @@ public class Client extends Thread
 
 		boolean dir = false;
 		fileName = st.nextToken();
+		fileName = fileName;
+		System.out.println(fileName);
 
 		//doc_root ="../project-1-java-red";
-		File file = new File(doc_root + fileName);
+		File file = new File("."+fileName);
+
 		if (file.isDirectory())
 		{
 			fileName = fileName + "index.html";
-			file = new File(doc_root + fileName);
+				System.out.println("TRUE");
+			file = new File("." +fileName);
+			System.out.println("TRUE");
+
 		}
 		String mime =getMime(fileName);
+		System.out.println(fileName);
 		if (mime.equals("image/x-icon"))
 			return;
 		if (mime == null)
