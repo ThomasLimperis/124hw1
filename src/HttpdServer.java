@@ -3,6 +3,7 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 
 // Logging related. Print statement might not be thread-safe.
 import java.util.logging.Level;
@@ -127,7 +128,6 @@ public class Client extends Thread
 		boolean dir = false;
 		fileName = st.nextToken();
 		fileName = fileName;
-		System.out.println(fileName);
 
 		//doc_root ="../project-1-java-red";
 		File file = new File("."+fileName);
@@ -135,13 +135,10 @@ public class Client extends Thread
 		if (file.isDirectory())
 		{
 			fileName = fileName + "index.html";
-				System.out.println("TRUE");
 			file = new File("." +fileName);
-			System.out.println("TRUE");
 
 		}
 		String mime =getMime(fileName);
-		System.out.println(fileName);
 		if (mime.equals("image/x-icon"))
 			return;
 		if (mime == null)
@@ -155,9 +152,30 @@ public class Client extends Thread
 		}
 		FileInputStream in  = new FileInputStream (file);
 
-		line ="HTTP/1.1 200 OK\r\nContent-type: "  + mime + "\r\n\r\n";
+		line ="HTTP/1.1 200 OK\r\n";
 		byte [] b = line.getBytes();
+	//	System.out.println("HTTP/1.1 200 OK");
 		this.output.writeBytes(line);
+		this.output.writeBytes("Server: Myserver 1.0\r\n");
+		//System.out.println("Server: Myserver 1.0");
+		this.output.writeBytes("Last-Modiied: ");
+
+
+
+
+		SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+		String time = (format.format(file.lastModified())).toString();
+	//	System.out.println("Last-Modified: "+time);
+		this.output.writeBytes(time +"\r\n");
+
+		//System.out.println("Content-Length: " + file.length() +"\r\n");
+	//1	System.out.println("Content-type: " + mime);
+
+
+		this.output.writeBytes("Content-Length: " + file.length() +"\r\n");
+		this.output.writeBytes("Content-type: " + mime +"\r\n\r\n");
+
+
 
 		int i = 0;
 	  b = new byte [1024];
