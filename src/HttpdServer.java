@@ -56,14 +56,8 @@ public class HttpdServer {
 		{
 		client = new Client(socket);
 		Thread thread = new Client(socket);
-		try
-		{
-		thread.sleep(5);
 		socket.setSoTimeout(5000);
-	  }catch(InterruptedException e)
-		{
-        e.printStackTrace();
-    }
+
 
 		thread.start();
 		LOGGER.log(Level.INFO, "Waiting response..");
@@ -128,13 +122,14 @@ public class Client extends Thread
 		boolean dir = false;
 		fileName = st.nextToken();
 		fileName = fileName;
-
+		if (fileName.charAt(fileName.length()-1)==('/'))
+			fileName  = fileName + "index.html";
 		//doc_root ="../project-1-java-red";
 		File file = new File("."+fileName);
 
 		if (file.isDirectory())
 		{
-			fileName = fileName + "index.html";
+			fileName = fileName + "/index.html";
 			file = new File("." +fileName);
 
 		}
